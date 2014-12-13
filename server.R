@@ -2,12 +2,16 @@ library(UsingR)
 library(reshape2)
 library(ggplot2)
 
-# d <- read.csv('ocrdiff2_metrics_per_page.csv')
-# d$ratio <- d$count / d$size
-# reduced <- aggregate(cbind(count, size) ~ project + round + change, d, sum)
-# reduced <- aggregate(cbind(count, size) ~ project + round + change, d, sum)
-# write.csv(reduced, "proofing.csv")
-proofing <- read.csv("proofing.csv")
+# The source data file contains proofreader data so is considered sensitive.
+# The aggregate reduces the file from 40M to 6M.
+if (file.exists('ocrdiff2_metrics_per_page.csv')) {
+    d <- read.csv('ocrdiff2_metrics_per_page.csv')
+    d$ratio <- d$count / d$size
+    proofing <- aggregate(ratio ~ project + round + change, d, sum)
+    write.csv(proofing, "proofing.csv")
+} else {
+    proofing <- read.csv("proofing.csv")
+}
 proofing.wide <- dcast(proofing, project + round ~ change, value.var="ratio", fun.aggregate=sum)
 p1.projects <- proofing$project[proofing$round=="P1"]
 p2.projects <- proofing$project[proofing$round=="P2"]
