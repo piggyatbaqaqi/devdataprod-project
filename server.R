@@ -1,4 +1,3 @@
-library(UsingR)
 library(reshape2)
 library(ggplot2)
 
@@ -6,8 +5,8 @@ library(ggplot2)
 # The aggregate reduces the file from 40M to 6M.
 if (file.exists('ocrdiff2_metrics_per_page.csv')) {
     d <- read.csv('ocrdiff2_metrics_per_page.csv')
-    d$ratio <- d$count / d$size
-    proofing <- aggregate(ratio ~ project + round + change, d, sum)
+    proofing <- aggregate(cbind(count, size) ~ project + round + change, d, sum)
+    proofing$ratio <- proofing$count / proofing$size
     write.csv(proofing, "proofing.csv")
 } else {
     proofing <- read.csv("proofing.csv")
