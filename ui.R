@@ -1,5 +1,5 @@
 shinyUI(pageWithSidebar(
-  headerPanel("Project Gutenberg Distributed Proofreading ocrdiff2 small dataset"),
+  headerPanel("Project Gutenberg Distributed Proofreading ocrdiff2 Small Dataset Metric Builder"),
   sidebarPanel(
     h2("Changes"),
     checkboxInput("all", "Select All", value = TRUE),
